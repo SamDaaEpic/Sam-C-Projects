@@ -138,10 +138,82 @@ void xMove(){
 void oMove(){
 	int computerMove;
    	srand(time(0));
-	computerMove = rand() % 10;
+  
+  	bool computerPlaced = false;
+  	while(computerPlaced == false)
+    {
+       computerMove = rand() % 10;
+      
+       switch(computerMove)
+       {
+         case 1:
+           if(spaceTaken1 == false)
+           {
+             computerPlaced = true;
+           }
+           
+           break;
+           
+         case 2:
+           if(spaceTaken2 == false)
+           {
+             computerPlaced = true;
+           }
+           break;
+           
+         case 3:
+           if(spaceTaken3 == false)
+           {
+             computerPlaced = true;
+           }
+           break;
+           
+         case 4:
+           if(spaceTaken4 == false)
+           {
+             computerPlaced = true;
+           }
+           break;
+         case 5:
+           if(spaceTaken5 == false)
+           {
+             computerPlaced = true;
+           }
+           break;
+         case 6:
+           if(spaceTaken6 == false)
+           {
+             computerPlaced = true;
+           }
+           break;
+         case 7:
+           if(spaceTaken7 == false)
+           {
+             computerPlaced = true;
+           }
+           break;
+         case 8:
+           if(spaceTaken8 == false)
+           {
+             computerPlaced = true;
+           }
+           break;
+         case 9:
+           if(spaceTaken9 == false)
+           {
+             computerPlaced = true;
+           }
+           break;
+           
+         default:
+           break;
+       }
+    }
+  
+	// computerMove = rand() % 10;
 		if(computerMove == 1){
             		if(spaceTaken1 == true){
-
+			oMove();	
                 	}
             		else {
                   	board[0][0] = 'o';
@@ -151,6 +223,7 @@ void oMove(){
 
           	if(computerMove == 2){
             		if(spaceTaken2 == true){
+			oMove();	
                 	}
             		else {
                  	board[0][1] = 'o';
@@ -161,6 +234,7 @@ void oMove(){
 
           	if(computerMove == 3){
             		if(spaceTaken3 == true){
+			oMove();	
                 	}
             		else {
                   	board[0][2] = 'o';
@@ -170,6 +244,7 @@ void oMove(){
 
           	if(computerMove == 4){
             		if(spaceTaken4 == true){
+			oMove();	
                		}
             		else {
                   	board[1][0] = 'o';
@@ -179,6 +254,7 @@ void oMove(){
 
           	if(computerMove == 5){
             		if(spaceTaken5 == true){
+			oMove();	
                 	}
             		else {
                   	board[1][1] = 'o';
@@ -188,6 +264,7 @@ void oMove(){
 
           	if(computerMove == 6){
             		if(spaceTaken6 == true){
+			oMove();	
                 	}
             		else {
                   	board[1][2] = 'o';
@@ -197,6 +274,7 @@ void oMove(){
 
           	if(computerMove == 7){
             		if(spaceTaken7 == true){
+			oMove();	
                 	}
             		else {
                   	board[2][0] = 'o';
@@ -206,6 +284,7 @@ void oMove(){
 
           	if(computerMove == 8){
             		if(spaceTaken8 == true){
+			oMove();	
                 	}
             		else {
                   	board[2][1] = 'o';
@@ -216,6 +295,7 @@ void oMove(){
 
           	if(computerMove == 9){
             		if(spaceTaken9 == true){
+			oMove();	
                 	}
             		else {
                   	board[2][2] = 'o';
@@ -334,4 +414,3 @@ int main(){
 	}	
     return 0;
 }
-
