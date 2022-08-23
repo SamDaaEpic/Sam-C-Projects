@@ -187,7 +187,7 @@ int main(){
 	printf("\n\n The Category Is %s%s%s\n", BOLD,randCategory, RESET);
 	// Draw Hangman Again with the updated parts
 	drawHangMan();
-	printf("\nUsed Words: %s%s%s\n",BOLD, incorrectGuesses, RESET); // New
+	printf("\nUsed Incorrect Words: %s%s%s\n",BOLD, incorrectGuesses, RESET); // New
 	printf("\n");
 	// Check if user Wins
 	if(winOrLoose == 1){
