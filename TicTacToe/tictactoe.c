@@ -8,7 +8,10 @@ char board[3][3];
 int row;
 int col;
 char winner;
-bool wantToPlayWithComp;
+bool wantToPlayWithComp = false;
+bool wantToPlayWithLocal = false;
+bool wantToPlayWithOnline = false;
+char IP[50];
 int initBoard(){
 	int i, j;
 	for(i = 0; i < 3; i++){
@@ -31,17 +34,17 @@ void drawBoard()
     	}
 }
 
-void askCompOrLocal()
+void askCompOrLocalOrOnline()
 {
 	int choose;
 	printf("\n\nDo you Want to play Local Multiplayer or With Computer/AI?");
-	printf("\n\n1. Local Multiplayer.\n2. Computer/AI\n\n");
+	printf("\n\n1. Local Multiplayer.\n2. Computer/AI.\n3. Online\n\n");
 	printf("Choose: ");
 	scanf("%d", &choose);
        	switch(choose)
        	{
         	case 1:
-		wantToPlayWithComp = false;
+		wantToPlayWithLocal = true;
 		printf("\n\nYou Are Playing Local Multiplayer\n");
            	break;
            
@@ -50,9 +53,16 @@ void askCompOrLocal()
 		printf("\n\nYou Are Playing with Computer/AI\n");
            	break;
            
+		case 3:
+		wantToPlayWithOnline = true;	
+		printf("\n\nYou Are Playing Online, Please Enter in the Ip Of the Server.\n\n");
+		printf("Ip Address: ");
+		scanf("%s", &IP);
+           	break;
+
          	default:
 		printf("\n%sInvalid Number%s", BOLD, RESET);
-		askCompOrLocal();
+		askCompOrLocalOrOnline();
 		break;
 
        }
@@ -63,6 +73,7 @@ char checkIfXWins(){
 	   . . .
 	   . . . */
 	if(board[0][0] == 'X' && board[0][1] == 'X' && board[0][2] == 'X'){
+		drawBoard();
 		printf("\n%s'X' is the winner%s", BOLD, RESET);
 		winner = 'X';
 		return winner;
@@ -71,6 +82,7 @@ char checkIfXWins(){
 	   X . .
 	   X . . */
 	if(board[0][0] == 'X' && board[1][0] == 'X' && board[2][0] == 'X'){
+		drawBoard();
 		printf("\n%s'X' is the winner%s", BOLD, RESET);
 		winner = 'X';
 		return winner;
@@ -79,6 +91,7 @@ char checkIfXWins(){
 	   . . X
 	   . . X */
 	if(board[0][2] == 'X' && board[1][2] == 'X' && board[2][2] == 'X'){
+		drawBoard();
 		printf("\n%s'X' is the winner%s", BOLD, RESET);
 		winner = 'X';
 		return winner;
@@ -87,6 +100,7 @@ char checkIfXWins(){
 	   . . .
 	   X X X */
 	if(board[2][0] == 'X' && board[2][1] == 'X' && board[2][2] == 'x'){
+		drawBoard();
 		printf("\n%s'X' is the winner%s", BOLD, RESET);
 		winner = 'X';
 		return winner;
@@ -95,6 +109,7 @@ char checkIfXWins(){
 	   X X X
 	   . . . */
 	if(board[1][0] == 'X' && board[1][1] == 'X' && board[1][2] == 'X'){
+		drawBoard();
 		printf("\n%s'X' is the winner%s", BOLD, RESET);
 		winner = 'X';
 		return winner;
@@ -103,6 +118,7 @@ char checkIfXWins(){
 	   . X .
 	   . X . */
 	if(board[0][1] == 'X' && board[1][1] == 'x' && board[2][1] == 'X'){
+		drawBoard();
 		printf("\n%s'X' is the winner%s", BOLD, RESET);
 		winner = 'X';
 		return winner;
@@ -111,6 +127,7 @@ char checkIfXWins(){
 	   . X .
 	   . . X */
 	if(board[0][0] == 'X' && board[1][1] == 'X' && board[2][2] == 'X'){
+		drawBoard();
 		printf("\n%s'X' is the winner%s", BOLD, RESET);
 		winner = 'X';
 		return winner;
@@ -119,6 +136,7 @@ char checkIfXWins(){
 	   . X .
 	   X . . */
 	if(board[0][2] == 'X' && board[1][1] == 'X' && board[2][0] == 'X'){
+		drawBoard();
 		printf("\n%s'X' is the winner%s", BOLD, RESET);
 		winner = 'X';
 		return winner;
@@ -129,6 +147,7 @@ char checkIfOWins(){
 	   . . .
 	   . . . */
 	if(board[0][0] == 'O' && board[0][1] == 'O' && board[0][2] == 'O'){
+		drawBoard();
 	printf("\n%s'O' is the winner%s", BOLD, RESET);
 	winner = 'O';
 	return winner;
@@ -137,6 +156,7 @@ char checkIfOWins(){
 	   X . .
 	   X . . */
 	if(board[0][0] == 'O' && board[1][0] == 'O' && board[2][0] == 'O'){
+		drawBoard();
 		printf("\n%s'O' is the winner%s", BOLD, RESET);
 		winner = 'O';
 		return winner;
@@ -145,6 +165,7 @@ char checkIfOWins(){
 	   . . X
 	   . . X */
 	if(board[0][2] == 'O' && board[1][2] == 'O' && board[2][2] == 'O'){
+		drawBoard();
 		printf("\n%s'O' is the winner%s", BOLD, RESET);
 		winner = 'O';
 		return winner;
@@ -153,6 +174,7 @@ char checkIfOWins(){
 	   . . .
 	   X X X */
 	if(board[2][0] == 'O' && board[2][1] == 'O' && board[2][2] == 'O'){
+		drawBoard();
 		printf("\n%s'O' is the winner%s", BOLD, RESET);
 		winner = 'O';
 		return winner;
@@ -161,6 +183,7 @@ char checkIfOWins(){
 	   X X X
 	   . . . */
 	if(board[1][0] == 'O' && board[1][1] == 'O' && board[1][2] == 'O'){
+		drawBoard();
 		printf("\n%s'O' is the winner%s", BOLD, RESET);
 		winner = 'O';
 		return winner;
@@ -169,6 +192,7 @@ char checkIfOWins(){
 	   . X .
 	   . X . */
 	if(board[0][1] == 'O' && board[1][1] == 'O' && board[2][1] == 'O'){
+		drawBoard();
 		printf("\n%s'O' is the winner%s", BOLD, RESET);
 		winner = 'O';
 		return winner;
@@ -177,6 +201,7 @@ char checkIfOWins(){
 	   . X .
 	   . . X */
 	if(board[0][0] == 'O' && board[1][1] == 'O' && board[2][2] == 'O'){
+		drawBoard();
 		printf("\n%s'O' is the winner%s", BOLD, RESET);
 		winner = 'O';
 		return winner;
@@ -185,6 +210,7 @@ char checkIfOWins(){
 	   . X .
 	   X . . */
 	if(board[0][2] == 'O' && board[1][1] == 'O' && board[2][0] == 'O'){
+		drawBoard();
 		printf("\n%s'O' is the winner%s", BOLD, RESET);
 		winner = 'O';
 		return winner;
@@ -248,7 +274,7 @@ void oCompMove()
 
 int main(){
 	printf("Tic Tac Toe!");
-	askCompOrLocal();
+	askCompOrLocalOrOnline();
 	initBoard();
 	drawBoard();
 	while(winner != 'X' || winner != 'O')
