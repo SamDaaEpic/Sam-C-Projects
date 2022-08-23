@@ -15,6 +15,8 @@ int numOfChar;
 int winOrLoose = 3;
 int numOfFails;
 char incorrectGuesses[6];
+
+// Draw Hangman 
 void drawHangMan(){
 	printf("     +___+\n");
 	printf("     |   |             \n");
@@ -25,6 +27,7 @@ void drawHangMan(){
 	printf(" ==========\n");
 }
 
+// Create a Dictionary of words for Hangman
 struct random{
 	char *categorys[20];
 	char *bodyRand[20];
@@ -39,6 +42,7 @@ struct random{
 	char *calendarRand[20];
 };
 
+// Set the Dictionary words
 struct random randomStuff = {
 	.categorys = {"body", "country", "vehicle", "technology", "fruit", "actor", "profession", "color", "nature", "calendar"},
 	.bodyRand = {"HEART", "LEG", "HAND", "FACE", "TORSO"},
@@ -53,12 +57,12 @@ struct random randomStuff = {
 	.calendarRand = {"JANUARY", "FEBUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMEBER"},
 };
 
+// Select a random category and a random Word From the Dictionary.
 char *throwRand(char *thingUserWant){
 	if(thingUserWant == "category"){
 		return randCategory = randomStuff.categorys[rand() % 10];
 	}else if(thingUserWant == "body"){
-		randWord = randomStuff.bodyRand[rand() % 5];
-		return randWord;
+		return randWord = randomStuff.bodyRand[rand() % 5];
 	}else if(thingUserWant == "country"){
 		return randWord = randomStuff.countryRand[rand() % 13];
 	}else if(thingUserWant == "vehicle"){
@@ -80,10 +84,10 @@ char *throwRand(char *thingUserWant){
 	}
 }
 
-
-bool corOrInc(char *checkWut){
-	bool correctOrIncorrect;
+// Check if user is correct or incorrect
+bool corOrInc(){
     	int found = 0; 
+	// For Loop to loop through the randWord and check if userInput is correct or not.
 	for(int i = 0; i < numOfChar; i++){
 		if(randWord[i]== userInput){
 			if(randWord[i] == numOfBlanks[i]){
@@ -99,7 +103,8 @@ bool corOrInc(char *checkWut){
        	}
     	}else{
 		numOfFails++;
-			
+	
+	// Check how many times user has enterd incorrect alphabets.		
 	switch(numOfFails){
 	case 1:
 		body[0] = 'O';
@@ -126,17 +131,17 @@ bool corOrInc(char *checkWut){
 		incorrectGuesses[5] = userInput;
 		winOrLoose = 2;
 		break;
-	
 	}
-
-   } 
+	} 
 }
 
-void safe_flush(FILE *fp)
-{
- int ch;
- while( (ch = fgetc(fp)) != EOF && ch != '\n' );
+// Don't listen to user if they put multiple alphabet in a single time
+void safe_flush(FILE *fp){
+ 	int ch;
+ 	while( (ch = fgetc(fp)) != EOF && ch != '\n' );
 }
+
+// Get User Input
 void UsrInp(){
 	for(int i = 0; i < numOfChar; i ++){
 	printf(" %c", numOfBlanks[i]);
@@ -149,6 +154,7 @@ void UsrInp(){
 	userInput = toupper(userInput);
 }
 
+// Asign blank `_` vaule to the variable acording to the size of the randWord
 void numBlank(){
     	for(int i = 0; i < numOfChar; i++){
         	if(isspace(randWord[i]) != 0){
@@ -159,36 +165,40 @@ void numBlank(){
     	}	
 }
 
+// Magic Function
 int main(){
-/*body[0] = 'O';
-body[1] = '|';
-body[2] = '/';
-body[3] = '\\';
-body[4] = '/';
-body[5] = '\\';*/
-	struct random random;
+	// Initialize srand/rand
 	srand(time(NULL));
 	printf("Welcome To HangMan, the rules are simple, guess the word, you can only do 6 mistakes, Enjoy!\n");
+	// Draw Hangman
 	drawHangMan();
-	//randomCategory();
 	printf("\n\n The Category Is %s%s%s\n\n Guess The Word\n\n",BOLD, throwRand("category"), RESET);
+	// Select a random Category
 	throwRand(randCategory);
+	// Get the number of Char for nunBlank
 	numOfChar = strlen(randWord);
-	numBlank();//aero
+	// NumBLANK
+	numBlank();
 	while(1){
+	// User INput
 	UsrInp();
-	corOrInc(randCategory);
+	// Check Correct or Incorrect Input
+	corOrInc();
 	printf("\n\n The Category Is %s%s%s\n", BOLD,randCategory, RESET);
+	// Draw Hangman Again with the updated parts
 	drawHangMan();
 	printf("\nUsed Words: %s%s%s\n",BOLD, incorrectGuesses, RESET); // New
 	printf("\n");
+	// Check if user Wins
 	if(winOrLoose == 1){
 		for(int i = 0; i < numOfChar; i ++){
 		printf(" %c", numOfBlanks[i]);
 		}
 		printf("\n\n You Have %sWON%s\n", BOLD,RESET);
 		return winOrLoose;
-	}else if(winOrLoose == 2){
+	}
+	// Check if User Looses
+	else if(winOrLoose == 2){
 		printf("\n The Word Was %s%s%s\n", BOLD,randWord, RESET);
 		printf("\n You Have %sLOST%s\n\n", BOLD,RESET);
 		return winOrLoose;
