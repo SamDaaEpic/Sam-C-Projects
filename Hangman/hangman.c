@@ -6,15 +6,19 @@
 #include <ctype.h>
 #define RESET "\x1B[0m"
 #define BOLD "\x1B[1m"
-char body[6] = {' ',' ' ,' ',' ',' ',' '};
+#define MAXFAILS 6
+#define WON 1
+#define LOST 2
+char body[MAXFAILS] = {' ',' ' ,' ',' ',' ',' '};
 char userInput;//aero
 char *randWord;
 char *randCategory;
 char numOfBlanks[15];//aero
 int numOfChar;
-int winOrLoose = 3;
+int winOrLose = 3;
 int numOfFails;
-char incorrectGuesses[6];
+char incorrectGuesses[MAXFAILS];
+char bodyParts[MAXFAILS] = {'O', '|', '/', '\\', '/', '\\'};
 
 // Draw Hangman 
 void drawHangMan(){
@@ -59,33 +63,34 @@ struct random randomStuff = {
 
 // Select a random category and a random Word From the Dictionary.
 char *throwRand(char *thingUserWant){
-	if(thingUserWant == "category"){
+	if(strcmp(thingUserWant,"category") == 0){
 		return randCategory = randomStuff.categorys[rand() % 10];
-	}else if(thingUserWant == "body"){
+	}else if(strcmp(thingUserWant,"body") == 0){
 		return randWord = randomStuff.bodyRand[rand() % 5];
-	}else if(thingUserWant == "country"){
+	}else if(strcmp(thingUserWant,"country") == 0){
 		return randWord = randomStuff.countryRand[rand() % 13];
-	}else if(thingUserWant == "vehicle"){
+	}else if(strcmp(thingUserWant,"vehicle") == 0){
 		return randWord = randomStuff.vehicleRand[rand() % 8];
-	}else if(thingUserWant == "technology"){
+	}else if(strcmp(thingUserWant,"technology") == 0){
 		return randWord = randomStuff.technologyRand[rand() % 11];
-	}else if(thingUserWant == "fruit"){
+	}else if(strcmp(thingUserWant,"fruit") == 0){
 		return randWord = randomStuff.fruitRand[rand() % 12];
-	}else if(thingUserWant == "actor"){
+	}else if(strcmp(thingUserWant,"actor") == 0){
 		return randWord = randomStuff.actorRand[rand() % 8];
-	}else if(thingUserWant == "profession"){
+	}else if(strcmp(thingUserWant,"profession") == 0){
 		return randWord = randomStuff.professionRand[rand() % 6];
-	}else if(thingUserWant == "color"){
+	}else if(strcmp(thingUserWant,"color") == 0){
 		return randWord = randomStuff.colorRand[rand() % 10];
-	}else if(thingUserWant == "nature"){
+	}else if(strcmp(thingUserWant,"nature") == 0){
 		return randWord = randomStuff.natureRand[rand() % 6];
-	}else if(thingUserWant == "calendar"){
+	}else if(strcmp(thingUserWant,"calendar") == 0){
 		return randWord = randomStuff.calendarRand[rand() % 12];
 	}
+	return NULL;
 }
 
 // Check if user is correct or incorrect
-bool corOrInc(){
+void corOrInc(){
     	int found = 0; 
 	// For Loop to loop through the randWord and check if userInput is correct or not.
 	for(int i = 0; i < numOfChar; i++){
@@ -99,39 +104,15 @@ bool corOrInc(){
      	} 
      	if(found!=0){
        	if(strcasecmp(randWord, numOfBlanks) == 0){
-           winOrLoose=1;
+        	winOrLose = WON;
        	}
-    	}else{
+	}else{
+		incorrectGuesses[numOfFails] = userInput;
+		body[numOfFails] = bodyParts[numOfFails];
 		numOfFails++;
-	
-	// Check how many times user has enterd incorrect alphabets.		
-	switch(numOfFails){
-	case 1:
-		body[0] = 'O';
-		incorrectGuesses[0] = userInput;
-		break;
-	case 2:
-		body[1] = '|';
-		incorrectGuesses[1] = userInput;
-		break;
-	case 3:
-		body[2] = '/';
-		incorrectGuesses[2] = userInput;
-		break;
-	case 4:
-		body[3] = '\\';
-		incorrectGuesses[3] = userInput;
-		break;
-	case 5:
-		body[4] = '/';
-		incorrectGuesses[4] = userInput;
-		break;
-	case 6:
-		body[5] = '\\';
-		incorrectGuesses[5] = userInput;
-		winOrLoose = 2;
-		break;
-	}
+		if(numOfFails == MAXFAILS){
+			winOrLose = LOST;
+		}	
 	} 
 }
 
@@ -190,18 +171,18 @@ int main(){
 	printf("\nUsed Incorrect Words: %s%s%s\n",BOLD, incorrectGuesses, RESET); // New
 	printf("\n");
 	// Check if user Wins
-	if(winOrLoose == 1){
+	if(winOrLose == WON){
 		for(int i = 0; i < numOfChar; i ++){
 		printf(" %c", numOfBlanks[i]);
 		}
 		printf("\n\n You Have %sWON%s\n", BOLD,RESET);
-		return winOrLoose;
+		return winOrLose;
 	}
-	// Check if User Looses
-	else if(winOrLoose == 2){
+	// Check if User Loses
+	else if(winOrLose == LOST){
 		printf("\n The Word Was %s%s%s\n", BOLD,randWord, RESET);
 		printf("\n You Have %sLOST%s\n\n", BOLD,RESET);
-		return winOrLoose;
+		return winOrLose;
 	}
 	}
 }
